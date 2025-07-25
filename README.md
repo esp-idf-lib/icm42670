@@ -11,7 +11,7 @@ Driver for TDK ICM-42670-P 6-Axis IMU.
 ## Installation
 
 ```sh
-idf.py add-dependency "esp-idf-lib/icm42670^1.0.0
+idf.py add-dependency esp-idf-lib/icm42670^1.0.0
 ```
 
 ## Support
