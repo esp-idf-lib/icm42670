@@ -17,5 +17,5 @@ menu "Example configuration"
         help
             GPIO number for Interrupt Input Pin
 
-    rsource "../../../../devtools/Kconfig.i2c"
+    rsource "../../../Kconfig.i2c"
 endmenu
