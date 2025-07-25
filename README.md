@@ -1,5 +1,9 @@
 # esp-idf-lib/icm42670
 
+[![Build examples](https://github.com/esp-idf-lib/icm42670/actions/workflows//build.yml/badge.svg)](https://github.com/esp-idf-lib/icm42670/actions/workflows//build.yml)
+[![Build docs](https://github.com/esp-idf-lib/icm42670/actions/workflows//build-docs.yml/badge.svg)](https://github.com/esp-idf-lib/icm42670/actions/workflows//build-docs.yml)
+[![Validation](https://github.com/esp-idf-lib/icm42670/actions/workflows//validate-component.yml/badge.svg)](https://github.com/esp-idf-lib/icm42670/actions/workflows//validate-component.yml)
+
 Driver for TDK ICM-42670-P 6-Axis IMU.
 
 * [Documentation](https://esp-idf-lib.github.io/icm42670/)
@@ -11,7 +15,7 @@ Driver for TDK ICM-42670-P 6-Axis IMU.
 ## Installation
 
 ```sh
-idf.py add-dependency esp-idf-lib/icm42670^1.0.0
+idf.py add-dependency esp-idf-lib/icm42670
 ```
 
 ## Support
