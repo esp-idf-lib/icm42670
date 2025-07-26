@@ -1,5 +1,5 @@
 ---
-version: 1.0.2
+version: 1.0.3
 description: Driver for TDK ICM-42670-P 6-Axis IMU
 license: ISC
 targets:
