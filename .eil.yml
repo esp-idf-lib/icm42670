@@ -1,7 +1,7 @@
 ---
 name: icm42670
 description: Driver for TDK ICM-42670-P 6-Axis IMU
-version: 1.0.0
+version: 1.0.1
 groups:
   - imu
 code_owners: janveeh
