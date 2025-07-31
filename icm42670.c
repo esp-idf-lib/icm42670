@@ -276,7 +276,7 @@ static inline esp_err_t read_register_16(icm42670_t *dev, uint8_t upper_byte_reg
 }
 
 static inline esp_err_t manipulate_register(icm42670_t *dev, uint8_t reg_addr, uint8_t mask, uint8_t shift,
-    uint8_t value)
+                                            uint8_t value)
 {
     CHECK_ARG(dev);
 
@@ -291,7 +291,7 @@ static inline esp_err_t manipulate_register(icm42670_t *dev, uint8_t reg_addr, u
 }
 
 static inline esp_err_t read_mreg_register(icm42670_t *dev, icm42670_mreg_number_t mreg_num, uint8_t reg,
-    uint8_t *value)
+                                           uint8_t *value)
 {
     CHECK_ARG(dev && value);
 
@@ -315,7 +315,7 @@ static inline esp_err_t read_mreg_register(icm42670_t *dev, icm42670_mreg_number
 }
 
 static inline esp_err_t write_mreg_register(icm42670_t *dev, icm42670_mreg_number_t mreg_num, uint8_t reg,
-    uint8_t value)
+                                            uint8_t value)
 {
     CHECK_ARG(dev);
 
@@ -338,7 +338,7 @@ static inline esp_err_t write_mreg_register(icm42670_t *dev, icm42670_mreg_numbe
 }
 
 static inline esp_err_t manipulate_mreg_register(icm42670_t *dev, icm42670_mreg_number_t mreg_num, uint8_t reg_addr,
-    uint8_t mask, uint8_t shift, uint8_t value)
+                                                 uint8_t mask, uint8_t shift, uint8_t value)
 {
     CHECK_ARG(dev);
 
@@ -358,7 +358,7 @@ esp_err_t icm42670_init_desc(icm42670_t *dev, uint8_t addr, i2c_port_t port, gpi
     if (addr != ICM42670_I2C_ADDR_GND && addr != ICM42670_I2C_ADDR_VCC)
     {
         ESP_LOGE(TAG, "Invalid I2C address `0x%x`: must be one of 0x%x, 0x%x", addr, ICM42670_I2C_ADDR_GND,
-            ICM42670_I2C_ADDR_VCC);
+                 ICM42670_I2C_ADDR_VCC);
         return ESP_ERR_INVALID_ARG;
     }
 
@@ -430,7 +430,7 @@ esp_err_t icm42670_set_idle_pwr_mode(icm42670_t *dev, bool enable_idle)
     CHECK_ARG(dev);
 
     CHECK(manipulate_register(dev, ICM42670_REG_PWR_MGMT0, ICM42670_IDLE_BITS, ICM42670_IDLE_SHIFT,
-        (uint8_t)enable_idle));
+                              (uint8_t)enable_idle));
 
     return ESP_OK;
 }
@@ -457,23 +457,23 @@ esp_err_t icm42670_set_accel_pwr_mode(icm42670_t *dev, icm42670_accel_pwr_mode_t
     CHECK(icm42670_get_accel_avg(dev, &avg));
 
     if ((pwr_mode == ICM42670_ACCEL_ENABLE_LP_MODE)
-        && ((odr == ICM42670_ACCEL_ODR_800HZ) || (odr == ICM42670_ACCEL_ODR_1_6KHZ)
-            || ((odr == ICM42670_ACCEL_ODR_200HZ) && (avg == ICM42670_ACCEL_AVG_64X))))
+            && ((odr == ICM42670_ACCEL_ODR_800HZ) || (odr == ICM42670_ACCEL_ODR_1_6KHZ)
+                || ((odr == ICM42670_ACCEL_ODR_200HZ) && (avg == ICM42670_ACCEL_AVG_64X))))
     {
         ESP_LOGE(TAG, "Accel ODR and AVG settings invalid for Low-power mode");
         return ESP_ERR_INVALID_ARG;
     }
 
     if ((pwr_mode == ICM42670_ACCEL_ENABLE_LN_MODE)
-        && ((odr == ICM42670_ACCEL_ODR_6_25HZ) || (odr == ICM42670_ACCEL_ODR_3_125HZ)
-            || (odr == ICM42670_ACCEL_ODR_1_5625HZ)))
+            && ((odr == ICM42670_ACCEL_ODR_6_25HZ) || (odr == ICM42670_ACCEL_ODR_3_125HZ)
+                || (odr == ICM42670_ACCEL_ODR_1_5625HZ)))
     {
         ESP_LOGE(TAG, "Accel ODR settings invalid for Low-noise mode");
         return ESP_ERR_INVALID_ARG;
     }
 
     CHECK(manipulate_register(dev, ICM42670_REG_PWR_MGMT0, ICM42670_ACCEL_MODE_BITS, ICM42670_ACCEL_MODE_SHIFT,
-        pwr_mode));
+                              pwr_mode));
 
     return ESP_OK;
 }
@@ -483,7 +483,7 @@ esp_err_t icm42670_set_low_power_clock(icm42670_t *dev, icm42670_lp_clock_source
     CHECK_ARG(dev);
 
     CHECK(manipulate_register(dev, ICM42670_REG_PWR_MGMT0, ICM42670_ACCEL_LP_CLK_SEL_BITS,
-        ICM42670_ACCEL_LP_CLK_SEL_SHIFT, clock_source));
+                              ICM42670_ACCEL_LP_CLK_SEL_SHIFT, clock_source));
 
     return ESP_OK;
 }
@@ -539,7 +539,7 @@ esp_err_t icm42670_set_gyro_fsr(icm42670_t *dev, icm42670_gyro_fsr_t range)
 {
     CHECK_ARG(dev);
     return manipulate_register(dev, ICM42670_REG_GYRO_CONFIG0, ICM42670_GYRO_UI_FS_SEL_BITS,
-        ICM42670_GYRO_UI_FS_SEL_SHIFT, range);
+                               ICM42670_GYRO_UI_FS_SEL_SHIFT, range);
 }
 
 esp_err_t icm42670_set_gyro_odr(icm42670_t *dev, icm42670_gyro_odr_t odr)
@@ -552,7 +552,7 @@ esp_err_t icm42670_set_accel_fsr(icm42670_t *dev, icm42670_accel_fsr_t range)
 {
     CHECK_ARG(dev);
     return manipulate_register(dev, ICM42670_REG_ACCEL_CONFIG0, ICM42670_ACCEL_UI_FS_SEL_BITS,
-        ICM42670_ACCEL_UI_FS_SEL_SHIFT, range);
+                               ICM42670_ACCEL_UI_FS_SEL_SHIFT, range);
 }
 
 esp_err_t icm42670_set_accel_odr(icm42670_t *dev, icm42670_accel_odr_t odr)
@@ -565,28 +565,28 @@ esp_err_t icm42670_set_temp_lpf(icm42670_t *dev, icm42670_temp_lfp_t lpf_bw)
 {
     CHECK_ARG(dev);
     return manipulate_register(dev, ICM42670_REG_TEMP_CONFIG0, ICM42670_TEMP_FILT_BW_BITS, ICM42670_TEMP_FILT_BW_SHIFT,
-        lpf_bw);
+                               lpf_bw);
 }
 
 esp_err_t icm42670_set_gyro_lpf(icm42670_t *dev, icm42670_gyro_lfp_t lpf_bw)
 {
     CHECK_ARG(dev);
     return manipulate_register(dev, ICM42670_REG_GYRO_CONFIG1, ICM42670_GYRO_UI_FILT_BW_BITS,
-        ICM42670_GYRO_UI_FILT_BW_SHIFT, lpf_bw);
+                               ICM42670_GYRO_UI_FILT_BW_SHIFT, lpf_bw);
 }
 
 esp_err_t icm42670_set_accel_lpf(icm42670_t *dev, icm42670_accel_lfp_t lpf_bw)
 {
     CHECK_ARG(dev);
     return manipulate_register(dev, ICM42670_REG_ACCEL_CONFIG1, ICM42670_ACCEL_UI_FILT_BW_BITS,
-        ICM42670_ACCEL_UI_FILT_BW_SHIFT, lpf_bw);
+                               ICM42670_ACCEL_UI_FILT_BW_SHIFT, lpf_bw);
 }
 
 esp_err_t icm42670_set_accel_avg(icm42670_t *dev, icm42670_accel_avg_t avg)
 {
     CHECK_ARG(dev);
     return manipulate_register(dev, ICM42670_REG_ACCEL_CONFIG1, ICM42670_ACCEL_UI_AVG_BITS, ICM42670_ACCEL_UI_AVG_SHIFT,
-        avg);
+                               avg);
 }
 
 esp_err_t icm42670_config_int_pin(icm42670_t *dev, uint8_t int_pin, icm42670_int_config_t config)
@@ -659,11 +659,11 @@ esp_err_t icm42670_config_wom(icm42670_t *dev, icm42670_wom_config_t config)
     CHECK_ARG(dev);
 
     CHECK(manipulate_register(dev, ICM42670_REG_WOM_CONFIG, ICM42670_WOM_INT_DUR_BITS, ICM42670_WOM_INT_DUR_SHIFT,
-        config.trigger));
+                              config.trigger));
     CHECK(manipulate_register(dev, ICM42670_REG_WOM_CONFIG, ICM42670_WOM_INT_MODE_BITS, ICM42670_WOM_INT_MODE_SHIFT,
-        config.logical_mode));
+                              config.logical_mode));
     CHECK(manipulate_register(dev, ICM42670_REG_WOM_CONFIG, ICM42670_WOM_MODE_BITS, ICM42670_WOM_MODE_SHIFT,
-        config.reference));
+                              config.reference));
 
     // WoM threshold values
     CHECK(write_mreg_register(dev, ICM42670_MREG1_RW, ICM42670_REG_ACCEL_WOM_X_THR, config.wom_x_threshold));

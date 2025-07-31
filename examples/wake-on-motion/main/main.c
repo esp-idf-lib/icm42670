@@ -25,7 +25,8 @@ static const char *TAG = "icm42670";
 void icm42670_wom_test(void *pvParameters)
 {
     // config IO0 as input, pull-up enabled
-    const gpio_config_t io_conf = {
+    const gpio_config_t io_conf =
+    {
         .intr_type = GPIO_INTR_DISABLE,
         .mode = GPIO_MODE_INPUT,
         .pin_bit_mask = BIT(CONFIG_EXAMPLE_INT_INPUT_PIN),
@@ -44,9 +45,10 @@ void icm42670_wom_test(void *pvParameters)
      * - signal level is latched
      * - signal is fully driven (push/pull)
      * - polarity is active high
-    */ 
+    */
     const uint8_t int_pin = 2;
-    const icm42670_int_config_t int_config = {
+    const icm42670_int_config_t int_config =
+    {
         .mode = ICM42670_INT_MODE_LATCHED,
         .drive = ICM42670_INT_DRIVE_PUSH_PULL,
         .polarity = ICM42670_INT_POLARITY_ACTIVE_HIGH,
@@ -64,11 +66,12 @@ void icm42670_wom_test(void *pvParameters)
      * - first exceeding of the threshold is considered as WoM event
      * - the WoM event sources are logically linked by a OR
      * - the reference measurement for the threshold is taken at startup
-     * - the threshold is set to 100, which corresponds to 0.39*g 
+     * - the threshold is set to 100, which corresponds to 0.39*g
      *      (WoM thresholds are expressed in fixed “mg” independent of the selected Range [0g : 1g]
      *      Resolution 1g/256=~3.9 mg)
      */
-    const icm42670_wom_config_t wom_config = {
+    const icm42670_wom_config_t wom_config =
+    {
         .trigger = ICM42670_WOM_INT_DUR_FIRST,
         .logical_mode = ICM42670_WOM_INT_MODE_ALL_OR,
         .reference = ICM42670_WOM_MODE_REF_INITIAL,
@@ -91,7 +94,7 @@ void icm42670_wom_test(void *pvParameters)
     ESP_ERROR_CHECK(icm42670_enable_wom(&dev, true));
 
     // now poll intterupt pin for changes
-    while(1)
+    while (1)
     {
         ESP_LOGI(TAG, "WoM event detected: %s", gpio_get_level(CONFIG_EXAMPLE_INT_INPUT_PIN) ? "true" : "false");
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -101,7 +104,7 @@ void icm42670_wom_test(void *pvParameters)
 void app_main()
 {
     ESP_ERROR_CHECK(i2cdev_init());
-    
+
     xTaskCreatePinnedToCore(icm42670_wom_test, "icm42670_wom_test", configMINIMAL_STACK_SIZE * 8, NULL, 5, NULL, APP_CPU_NUM);
 }
 
